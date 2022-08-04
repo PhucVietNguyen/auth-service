@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:mariadb://my-mariadb:3306/authdb
+    tomcat:
+      connection-properties: useUnicode=true;characterEncoding=utf-8;
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+    initialization-mode: always
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 211060030718-3dtoo96d1emc0l3a55tbc43sb9280v2a.apps.googleusercontent.com
+            clientSecret: PhxKgX-NZkaHz_DVmeBhvLFh
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 1234407287312401
+            clientSecret: 1d9bd71fa7704a1f1bda89b41dec58e9
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: a94afddd0aa726dcbe7f
+            clientSecret: 673cdcc170589eac4bf27c4cb17110d980ff2a1b
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,email,first_name,middle_name,last_name,name,verified,picture.width(250).height(250)
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform:
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+server:
+  port: 9191
+
+check-user-scopes: false
+
+app:
+  auth:
+    tokenExpiration: 3600000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
