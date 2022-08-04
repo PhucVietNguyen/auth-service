@@ -2,7 +2,7 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:mariadb://my-mariadb:3306/authdb
+    url: jdbc:mariadb://localhost:3306/authdb
     tomcat:
       connection-properties: useUnicode=true;characterEncoding=utf-8;
     username: root
