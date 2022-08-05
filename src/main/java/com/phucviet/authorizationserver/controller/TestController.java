@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
   // Todo Test get data from database before config oauth2 login, logout, social, local
-  @Autowired private UserService userService;
-
-  @GetMapping("/get-user/{name}")
-  public User testApi1(@PathVariable String name) {
-    return userService.findByUsername(name);
-  }
-
-  @GetMapping("/get-user/{id}")
-  public User testApi2(@PathVariable Long id) {
-    return userService.findByUsername(String.valueOf(id));
-  }
+//  @Autowired private UserService userService;
+//
+//  @GetMapping("/get-user/{name}")
+//  public User testApi1(@PathVariable String name) {
+//    return userService.findByUsername(name);
+//  }
+//
+//  @GetMapping("/get-user/{id}")
+//  public User testApi2(@PathVariable Long id) {
+//    return userService.findByUsername(String.valueOf(id));
+//  }
 }
