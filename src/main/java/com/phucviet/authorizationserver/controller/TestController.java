@@ -15,7 +15,12 @@ public class TestController {
   @Autowired private UserService userService;
 
   @GetMapping("/get-user/{name}")
-  public User testApi(@PathVariable String name) {
+  public User testApi1(@PathVariable String name) {
     return userService.findByUsername(name);
+  }
+
+  @GetMapping("/get-user/{id}")
+  public User testApi2(@PathVariable Long id) {
+    return userService.findByUsername(String.valueOf(id));
   }
 }
