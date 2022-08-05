@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
+//Todo Test get data from database before config oauth2 login, logout, social, local
 //  @Autowired private UserService userService;
 
 //  @GetMapping("/get-user/{name}")
