@@ -20,8 +20,8 @@ public class TestController {
     return userService.findByUsername(name);
   }
 
-  //  @GetMapping("/get-user/{id}")
-  //  public User testApi2(@PathVariable Long id) {
-  //    return userService.findByUsername(String.valueOf(id));
-  //  }
+  @GetMapping("/get-user/{id}")
+  public User testApi2(@PathVariable Long id) {
+    return userService.findByUsername(String.valueOf(id));
+  }
 }
