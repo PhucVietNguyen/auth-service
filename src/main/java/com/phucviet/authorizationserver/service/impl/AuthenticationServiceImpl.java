@@ -1,7 +1,7 @@
 package com.phucviet.authorizationserver.service.impl;
 
-import com.phucviet.authorizationserver.model.entity.Role;
-import com.phucviet.authorizationserver.model.entity.User;
+import com.phucviet.authorizationserver.model.entity.RoleEntity;
+import com.phucviet.authorizationserver.model.entity.UserEntity;
 import com.phucviet.authorizationserver.model.enums.ERole;
 import com.phucviet.authorizationserver.model.enums.ESocialProvider;
 import com.phucviet.authorizationserver.model.request.SignUpRequest;
@@ -42,8 +42,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
           .body(new MessageResponse("Error: Email is already in use!"));
     }
     // Create new user's account
-    User user =
-        User.builder()
+    UserEntity user =
+        UserEntity.builder()
             .username(signUpRequest.getUsername())
             .email(signUpRequest.getEmail())
             .password(encoder.encode(signUpRequest.getPassword()))
@@ -54,49 +54,49 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .accountNonLocked(true)
             .build();
     List<String> strRoles = signUpRequest.getRoles();
-    List<Role> roles = new ArrayList<>();
+    List<RoleEntity> roles = new ArrayList<>();
     if (strRoles == null) {
-      Role userRole =
+      RoleEntity userRole =
           roleRepository
               .findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+              .orElseThrow(() -> new RuntimeException("Error: RoleEntity is not found."));
       roles.add(userRole);
     } else {
       strRoles.forEach(
           role -> {
             switch (role) {
               case "admin":
-                Role adminRole =
+                RoleEntity adminRole =
                     roleRepository
                         .findByName(ERole.ROLE_ADMIN)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        .orElseThrow(() -> new RuntimeException("Error: RoleEntity is not found."));
                 roles.add(adminRole);
                 break;
               case "operator":
-                Role modRole =
+                RoleEntity modRole =
                     roleRepository
                         .findByName(ERole.ROLE_OPERATOR)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        .orElseThrow(() -> new RuntimeException("Error: RoleEntity is not found."));
                 roles.add(modRole);
                 break;
               default:
-                Role userRole =
+                RoleEntity userRole =
                     roleRepository
                         .findByName(ERole.ROLE_USER)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        .orElseThrow(() -> new RuntimeException("Error: RoleEntity is not found."));
                 roles.add(userRole);
             }
           });
     }
     user.setRoles(roles);
     userRepository.save(user);
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new MessageResponse("UserEntity registered successfully!"));
   }
 
   @Override
-  public User getCurrentUser(Integer id) {
+  public UserEntity getCurrentUser(Long id) {
     return userRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("User not exist: " + id));
+        .orElseThrow(() -> new RuntimeException("UserEntity not exist: " + id));
   }
 }

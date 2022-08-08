@@ -1,6 +1,6 @@
 package com.phucviet.authorizationserver.controller;
 
-import com.phucviet.authorizationserver.model.entity.User;
+import com.phucviet.authorizationserver.model.entity.UserEntity;
 import com.phucviet.authorizationserver.model.entity.UserDetailsImpl;
 import com.phucviet.authorizationserver.model.request.SignUpRequest;
 import com.phucviet.authorizationserver.security.CurrentUser;
@@ -25,7 +25,7 @@ public class UserController {
 
   @GetMapping("/me")
   @PreAuthorize("hasRole('USER')")
-  public User getCurrentUser(@CurrentUser UserDetailsImpl userDetails) {
+  public UserEntity getCurrentUser(@CurrentUser UserDetailsImpl userDetails) {
     return authenticationService.getCurrentUser(userDetails.getId());
   }
 }

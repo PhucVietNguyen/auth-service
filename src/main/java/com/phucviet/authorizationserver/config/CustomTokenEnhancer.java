@@ -1,6 +1,6 @@
 package com.phucviet.authorizationserver.config;
 
-import com.phucviet.authorizationserver.model.entity.User;
+import com.phucviet.authorizationserver.model.entity.UserEntity;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -14,7 +14,7 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
   @Override
   public OAuth2AccessToken enhance(
       OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-    User user = (User) authentication.getPrincipal();
+    UserEntity user = (UserEntity) authentication.getPrincipal();
 
     Map<String, Object> info =
         new LinkedHashMap<String, Object>(accessToken.getAdditionalInformation());

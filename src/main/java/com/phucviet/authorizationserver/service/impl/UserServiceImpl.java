@@ -1,6 +1,6 @@
 package com.phucviet.authorizationserver.service.impl;
 
-import com.phucviet.authorizationserver.model.entity.User;
+import com.phucviet.authorizationserver.model.entity.UserEntity;
 import com.phucviet.authorizationserver.model.entity.UserDetailsImpl;
 import com.phucviet.authorizationserver.reponsitory.UserRepository;
 import com.phucviet.authorizationserver.service.UserService;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    Optional<User> optionalUser = userRepository.findByUsername(username);
+    Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 
     optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username or password wrong"));
 
@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User findByUsername(String username) {
+  public UserEntity findByUsername(String username) {
     return userRepository.findByUsername(username).get();
   }
 
   @Override
-  public UserDetails loadUserById(Integer id) {
-    Optional<User> optionalUser = userRepository.findById(id);
+  public UserDetails loadUserById(Long id) {
+    Optional<UserEntity> optionalUser = userRepository.findById(id);
 
     optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username or password wrong"));
 

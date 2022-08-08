@@ -2,8 +2,7 @@ package com.phucviet.authorizationserver.config;
 
 import com.phucviet.authorizationserver.service.UserService;
 import com.phucviet.authorizationserver.util.JwtUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Log4j2
 public class AuthenticationFilter extends OncePerRequestFilter {
 
   @Autowired private JwtUtils jwtUtils;
 
   @Autowired private UserService userService;
-
-  private static final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
 
   @Override
   protected void doFilterInternal(
@@ -36,7 +34,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
       if (StringUtils.hasText(jwt) && jwtUtils.validateJwtTokenSocial(jwt)) {
         String userId = jwtUtils.getUserIdFromJwtTokenSocial(jwt);
 
-        UserDetails userDetails = userService.loadUserById(Integer.valueOf(userId));
+        UserDetails userDetails = userService.loadUserById(Long.valueOf(userId));
         UsernamePasswordAuthenticationToken authentication =
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
@@ -45,9 +43,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception ex) {
-      logger.error("Could not set user authentication in security context", ex);
+      log.error("Could not set user authentication in security context", ex);
     }
-
     filterChain.doFilter(request, response);
   }
 

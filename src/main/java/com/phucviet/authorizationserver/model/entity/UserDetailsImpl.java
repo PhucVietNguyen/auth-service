@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class UserDetailsImpl extends User implements UserDetails, OAuth2User {
+public class UserDetailsImpl extends UserEntity implements UserDetails, OAuth2User {
 
   private Map<String, Object> attributes;
 
-  public UserDetailsImpl(User user) {
+  public UserDetailsImpl(UserEntity user) {
     super(
         user.getId(),
         user.getUsername(),

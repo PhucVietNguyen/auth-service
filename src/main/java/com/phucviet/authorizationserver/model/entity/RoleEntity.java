@@ -10,11 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "role")
 @Data
-public class Role implements Serializable {
+public class RoleEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
 
   @Column(name = "name")
   @Enumerated(EnumType.STRING)
@@ -25,5 +25,5 @@ public class Role implements Serializable {
       name = "permission_role",
       joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
       inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")})
-  private List<Permission> permissions;
+  private List<PermissionEntity> permissions;
 }

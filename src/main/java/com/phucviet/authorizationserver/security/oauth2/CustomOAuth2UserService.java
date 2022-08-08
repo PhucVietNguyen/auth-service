@@ -1,7 +1,7 @@
 package com.phucviet.authorizationserver.security.oauth2;
 
-import com.phucviet.authorizationserver.model.entity.Role;
-import com.phucviet.authorizationserver.model.entity.User;
+import com.phucviet.authorizationserver.model.entity.RoleEntity;
+import com.phucviet.authorizationserver.model.entity.UserEntity;
 import com.phucviet.authorizationserver.model.entity.UserDetailsImpl;
 import com.phucviet.authorizationserver.model.enums.ERole;
 import com.phucviet.authorizationserver.model.enums.ESocialProvider;
@@ -55,8 +55,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       throw new RuntimeException("Email not found from OAuth2 provider");
     }
 
-    Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
-    User user;
+    Optional<UserEntity> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+    UserEntity user;
     if (userOptional.isPresent()) {
       user = userOptional.get();
       if (!user.getProvider()
@@ -79,8 +79,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     return userDetails;
   }
 
-  private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-    User user = new User();
+  private UserEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+    UserEntity user = new UserEntity();
 
     user.setProvider(
         ESocialProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
@@ -92,17 +92,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     user.setCredentialsNonExpired(true);
     user.setAccountNonLocked(true);
     user.setEnabled(true);
-    Role userRole =
+    RoleEntity userRole =
         roleRepository
             .findByName(ERole.ROLE_USER)
-            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-    List<Role> roles = new ArrayList<>();
+            .orElseThrow(() -> new RuntimeException("Error: RoleEntity is not found."));
+    List<RoleEntity> roles = new ArrayList<>();
     roles.add(userRole);
     user.setRoles(roles);
     return userRepository.save(user);
   }
 
-  private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
+  private UserEntity updateExistingUser(UserEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
     existingUser.setUsername(oAuth2UserInfo.getName());
     existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
     return userRepository.save(existingUser);

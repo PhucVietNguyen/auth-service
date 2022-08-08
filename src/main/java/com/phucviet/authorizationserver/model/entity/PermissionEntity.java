@@ -9,11 +9,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "permission")
 @Data
-public class Permission implements Serializable {
+public class PermissionEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
 
   @Column(name = "name")
   @Enumerated(EnumType.STRING)
